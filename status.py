@@ -5,6 +5,8 @@ import requests
 import socket
 import sys
 import os
+import random
+import string
 import smtplib
 from time import sleep
 from subprocess import Popen, PIPE, STDOUT
@@ -20,19 +22,27 @@ def have_internet():
         conn.close()
         return False
 
-def send_mail(): 
-	server = smtplib.SMTP('smtp.gmail.com', 587)
-	server.starttls()
-	server.login("servicestatus01public@gmail.com", "ServiceStatus01")
- 
-	msg = "Attention! Host is down!\ntest"
-	server.sendmail("servicestatus01public@gmail.com", "victor.puiu01@gmail.com", msg)
-	server.quit()
+def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
 
 if have_internet():
 	internet = "OK"
 public_ip_address = requests.get('http://ip.42.pl/raw').text
 
+
+def send_mail(): 
+	server = smtplib.SMTP('smtp.gmail.com', 587)
+	server.starttls()
+	server.login("servicestatus01public@gmail.com", "ServiceStatus01")
+ 
+	msg = ("This message is sent from DNSStatus running on {}\nThe target host ( {} ) has been reported down and not reachable.\nDo not reply to this message!\nHASH:{}".format(public_ip_address, monitoring_ip, id_generator()))
+	server.sendmail("servicestatus01public@gmail.com", "victor.puiu01@gmail.com", msg)
+	server.quit()
+
+
+
+
+monitoring_ip = "93.115.134.243"
 #script
 
 
@@ -59,7 +69,8 @@ print("Connected to internet via {}".format(public_ip_address))
 sleep(0.3)
 print("=======================")
 #monitoring_ip = input('Please enter the IP you want to monitor: ')
-monitoring_ip = "93.116.134.243"
+if monitoring_ip is not None:
+	print("Skipping user input for monitoring IP because it hard-coded. (View readme)")
 print("=======================")
 print("Monitoring IP set to {}".format(monitoring_ip))
 print("Monitoring PORT(s) set to: 80 [future versions multiple ports]")
@@ -68,9 +79,6 @@ server_ip = monitoring_ip
 
 host_up = True if os.system("ping -c 1 " + monitoring_ip) is 0 else False
 
-
-
-###### LOOOP
 var = 1
 while var==1:
 	if host_up is True:
@@ -84,3 +92,4 @@ while var==1:
 	print('1h left to recheck...')
 	sleep(3600)
 	print('rechecking...')
+
