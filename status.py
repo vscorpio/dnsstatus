@@ -31,18 +31,18 @@ public_ip_address = requests.get('http://ip.42.pl/raw').text
 
 
 def send_mail(): 
-	server = smtplib.SMTP('smtp.gmail.com', 587)
+	server = smtplib.SMTP('SMTP_ADDRESS', SMTP_PORT)
 	server.starttls()
-	server.login("servicestatus01public@gmail.com", "ServiceStatus01")
+	server.login("SMTP_USERNAME", "SMTP_PASSWORD")
  
 	msg = ("This message is sent from DNSStatus running on {}\nThe target host ( {} ) has been reported down and not reachable.\nDo not reply to this message!\nHASH:{}".format(public_ip_address, monitoring_ip, id_generator()))
-	server.sendmail("servicestatus01public@gmail.com", "victor.puiu01@gmail.com", msg)
+	server.sendmail("SMTP_USERNAME", "SMTP_DESTINATION_ADDRESS", msg)
 	server.quit()
 
 
 
 
-monitoring_ip = "93.115.134.243"
+monitoring_ip = "REMOTE HOST IP"
 #script
 
 
