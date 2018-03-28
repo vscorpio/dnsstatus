@@ -40,9 +40,7 @@ def send_mail():
 	server.quit()
 
 
-
-
-
+mailsthissession = 1
 monitoring_ip = "93.113.134.243"
 #script
 
@@ -84,6 +82,7 @@ print("Monitoring PORT(s) set to: 80 [future versions multiple ports]")
 server_ip = monitoring_ip
 
 
+
 host_up = True if os.system("ping -c 1 " + monitoring_ip) is 0 else False
 
 var = 1
@@ -97,3 +96,4 @@ while var==1:
 		mailsthissession+= 1
 	sleep(300)
 	host_up = True if os.system("ping -c 1 " + monitoring_ip) is 0 else False
+
