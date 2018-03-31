@@ -6,6 +6,6 @@
 <h3><span style="color: #ff9900;">Features:</span></h3>
 <ul>
 <li>having an hard-cored HOST IP address for bypassing the user-input</li>
-<li>web UI for monitoring and detailed logging of script's workings</li>
+<li>web UI for monitoring and detailed logging of script's workingsd</li>
 </ul>
 <p>To do disable that, uncomment line 71 and comment out line 45.</p>
