@@ -8,9 +8,14 @@ import os
 import random
 import string
 import time
+import _thread
 import smtplib
+from flask import Flask
+from flask import render_template
 from time import sleep
 from subprocess import Popen, PIPE, STDOUT
+
+app = Flask(__name__)
 
 #functions
 def have_internet():
@@ -25,6 +30,9 @@ def have_internet():
 
 def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
+
+def flaskThread():
+    app.run(port=80)
 
 if have_internet():
 	internet = "OK"
@@ -63,6 +71,12 @@ sleep(0.3)
 print("Setting lang to: EN_US...OK")
 sleep(0.3)
 print("Enabling SMTP module...OK")
+sleep(0.3)
+print("Enabling HTTP module...OK")
+sleep(0.3)
+if __name__ == "__main__":
+    _thread.start_new_thread(flaskThread,())
+print("HTTP module running on: PORT 80")
 sleep(0.3)
 print("Enabling SMTP_TLS...OK")
 sleep(0.3)
